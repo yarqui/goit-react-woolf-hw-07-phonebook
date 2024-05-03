@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Remove arrow handles from input number */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+@layer base {
+  body {
+    @apply min-h-full min-w-80 bg-gradient-to-br  from-violet-100 text-slate-800;
+  }
+
+  input {
+    @apply border-b-2 border-slate-400 py-2 outline-none transition-all focus:border-slate-600;
+  }
+}
+
+@layer components {
+  .container {
+    @apply mx-auto my-6 flex max-w-md flex-col justify-center gap-4 px-6;
+  }
+
+  .btn-regular {
+    @apply w-max self-center rounded-full border-2 border-slate-600 px-4 py-2 transition-colors duration-200 hover:border-slate-800 hover:bg-slate-800 hover:text-slate-50;
+  }
+
+  .btn-close {
+    @apply p-1 hover:text-red-500;
+  }
+}
