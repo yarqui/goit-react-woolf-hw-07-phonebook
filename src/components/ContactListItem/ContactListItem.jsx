@@ -8,8 +8,8 @@ import { deleteContactById } from "../../redux/operations/contactsOperations";
 const ContactListItem = ({ id, name, phone }) => {
   const dispatch = useDispatch();
 
-  const handleDeleteContact = (contactId) => {
-    dispatch(deleteContactById(contactId));
+  const handleDeleteContact = () => {
+    dispatch(deleteContactById(id));
   };
 
   return (
@@ -21,11 +21,7 @@ const ContactListItem = ({ id, name, phone }) => {
         <span className="break-all text-sm text-slate-500 ">{phone}</span>
       </div>
 
-      <Button
-        type="button"
-        onClick={() => handleDeleteContact(id)}
-        className="btn-close"
-      >
+      <Button type="button" onClick={handleDeleteContact} className="btn-close">
         <IoCloseOutline className="h-6 w-6 " />
       </Button>
     </li>
