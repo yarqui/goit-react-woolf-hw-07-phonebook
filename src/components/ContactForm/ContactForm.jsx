@@ -5,12 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import Button from "../../common/components/Button/Button";
 import Label from "../Label/Label";
 import Input from "../Input/Input";
-import { addContact } from "../../redux/slices/contactsSlice";
 import { selectContacts } from "../../redux/selectors/selectors";
+import { addContact } from "../../redux/operations/contactsOperations";
 
 const INITIAL_STATE = {
   name: "",
-  number: "",
+  phone: "",
 };
 
 const ContactForm = () => {
@@ -39,7 +39,7 @@ const ContactForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const { name, number } = userCredentials;
+    const { name, phone } = userCredentials;
 
     if (contactNameExists(name)) {
       Notify.failure(`${name} already exists in the phonebook.`);
@@ -48,7 +48,7 @@ const ContactForm = () => {
 
     const trimmedCredentials = {
       name: name.trim(),
-      number: number.trim(),
+      phone: phone.trim(),
     };
 
     dispatch(addContact(trimmedCredentials));
@@ -80,28 +80,26 @@ const ContactForm = () => {
         peer-placeholder-shown:font-normal peer-placeholder-shown:text-slate-400 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:font-semibold peer-focus:text-slate-600"
         />
       </div>
-
       <div className="relative flex flex-col gap-1">
         <Input
-          id="number"
+          id="phone"
           type="number"
-          name="number"
-          value={userCredentials.number}
+          name="phone"
+          value={userCredentials.phone}
           title="May contain only numbers"
-          placeholder="Number"
+          placeholder="Phone"
           onChange={handleInputChange}
           required
           className="peer placeholder-transparent"
         />
         <Label
-          htmlFor="number"
-          label="Number"
+          htmlFor="phone"
+          label="Phone"
           className="pointer-events-none absolute -top-3.5 left-0 text-sm font-semibold text-slate-600 transition-all hover:cursor-text peer-placeholder-shown:top-3 peer-placeholder-shown:text-base
         peer-placeholder-shown:font-normal peer-placeholder-shown:text-slate-400 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:font-semibold peer-focus:text-slate-600"
         />
       </div>
-
-      <Button type="submit" className="btn-regular">
+      <Button type="submit" className="btn-regular min-w-32">
         Add contact
       </Button>
     </form>
