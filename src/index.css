@@ -27,11 +27,11 @@ input[type="number"] {
 
 @layer base {
   body {
-    @apply h-svh min-w-80 bg-gradient-to-br  from-violet-100 text-slate-800;
+    @apply min-w-80 bg-gradient-to-br  from-violet-100 text-slate-800;
   }
 
   input {
-    @apply border-b-2 border-slate-400 py-2 outline-none transition-all focus:border-slate-600;
+    @apply select-none border-b-2 border-slate-400 py-2 outline-none transition-all focus:border-slate-600;
   }
 }
 
