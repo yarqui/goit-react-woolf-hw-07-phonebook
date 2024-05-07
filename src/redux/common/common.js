@@ -11,4 +11,18 @@ const handleRejected = (state, payload) => {
   state.error = payload;
 };
 
-export { isPendingAction, handlePending, isRejectedAction, handleRejected };
+const isFulfilledAction = (action) => action.type.endsWith("fulfilled");
+
+const handleFulfilled = (state) => {
+  state.isLoading = false;
+  state.error = null;
+};
+
+export {
+  isPendingAction,
+  handlePending,
+  isRejectedAction,
+  handleRejected,
+  isFulfilledAction,
+  handleFulfilled,
+};

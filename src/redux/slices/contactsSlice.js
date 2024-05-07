@@ -5,8 +5,10 @@ import {
   fetchContactsAll,
 } from "../operations/contactsOperations";
 import {
+  handleFulfilled,
   handlePending,
   handleRejected,
+  isFulfilledAction,
   isPendingAction,
 } from "../common/common";
 
@@ -18,22 +20,17 @@ export const contactsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchContactsAll.fulfilled, (state, { payload }) => {
-        state.isLoading = false;
-        state.error = null;
         state.items = payload;
       })
       .addCase(addContact.fulfilled, (state, { payload }) => {
-        state.isLoading = false;
-        state.error = null;
         state.items.push(payload);
       })
       .addCase(deleteContactById.fulfilled, (state, { payload }) => {
-        state.isLoading = false;
-        state.error = null;
         state.items = state.items.filter(
           (contact) => contact.id !== payload.id,
         );
       })
+      .addMatcher(isFulfilledAction, handleFulfilled)
       .addMatcher(isPendingAction, handlePending)
       .addMatcher(isRejected, handleRejected)
       .addDefaultCase((state) => {
