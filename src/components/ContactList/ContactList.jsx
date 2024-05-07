@@ -22,7 +22,13 @@ const ContactList = () => {
   const showContacts = filteredContacts.length > 0;
 
   useEffect(() => {
-    dispatch(fetchContactsAll());
+    const controller = new AbortController();
+
+    dispatch(fetchContactsAll(controller.signal));
+
+    return () => {
+      controller.abort();
+    };
   }, [dispatch]);
 
   return (

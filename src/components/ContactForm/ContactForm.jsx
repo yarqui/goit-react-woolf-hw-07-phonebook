@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Notify } from "notiflix";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -15,14 +15,22 @@ const INITIAL_STATE = {
 
 const ContactForm = () => {
   const [userCredentials, setUserCredentials] = useState(INITIAL_STATE);
+  const abortControllerRef = useRef(null);
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
 
-  const contactNameExists = (name) => {
-    return contacts?.some(
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, []);
+
+  const contactNameExists = (name) =>
+    contacts?.some(
       (contact) => contact.name.toLowerCase() === name.toLowerCase(),
     );
-  };
 
   const resetForm = () => {
     setUserCredentials(INITIAL_STATE);
@@ -46,12 +54,18 @@ const ContactForm = () => {
       return;
     }
 
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+
+    abortControllerRef.current = new AbortController();
+
     const trimmedCredentials = {
       name: name.trim(),
       phone: phone.trim(),
     };
 
-    dispatch(addContact(trimmedCredentials));
+    dispatch(addContact(trimmedCredentials, abortControllerRef.current.signal));
     resetForm();
   };
 
