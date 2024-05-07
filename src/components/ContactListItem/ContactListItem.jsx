@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { IoCloseOutline } from "react-icons/io5";
@@ -6,10 +7,24 @@ import Button from "../../common/components/Button/Button";
 import { deleteContactById } from "../../redux/operations/contactsOperations";
 
 const ContactListItem = ({ id, name, phone }) => {
+  const abortControllerRef = useRef(null);
+
   const dispatch = useDispatch();
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, []);
 
   const handleDeleteContact = () => {
-    dispatch(deleteContactById(id));
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    abortControllerRef.current = new AbortController();
+
+    dispatch(deleteContactById(id, abortControllerRef.current.signal));
   };
 
   return (
