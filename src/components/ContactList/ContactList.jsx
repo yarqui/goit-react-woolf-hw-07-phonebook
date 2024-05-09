@@ -34,9 +34,7 @@ const ContactList = () => {
   return (
     <div className="relative">
       {showLoading && (
-        <div
-          className={`absolute flex h-full w-full items-center justify-center rounded-md bg-slate-200 opacity-70`}
-        >
+        <div className=" absolute flex size-full place-content-center rounded-md">
           <Spinner css="h-10 w-10" />
         </div>
       )}
@@ -49,7 +47,7 @@ const ContactList = () => {
       )}
 
       {showContacts && (
-        <ul className="flex flex-col">
+        <ul className={`flex flex-col ${isLoading && "blur-sm"}`}>
           {filteredContacts.map(({ name, phone, id }) => (
             <ContactListItem key={id} id={id} name={name} phone={phone} />
           ))}
